@@ -25,27 +25,34 @@ dependencies:
   flutter:
     sdk: flutter
   appwrite: ^11.0.0
-  riverpod: ^2.4.1
+  flutter_riverpod: ^2.4.1
   go_router: ^11.1.1
   freezed: ^2.4.3
   flutter_svg: ^2.0.7
   google_fonts: ^6.1.0
 
   cupertino_icons: ^1.0.2
+  freezed_annotation: 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   build_runner: ^2.4.6
+  json_serializable:
 
 flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/intro1.jpg
     - assets/images/intro1.svg
+    - assets/images/about.svg
+    - assets/images/projects.svg
+    - assets/images/contacts.svg
+    - assets/images/skills.svg
+    - assets/project_icons/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

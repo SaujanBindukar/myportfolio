@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myportfolio/feature/about/about_page.dart';
+import 'package:myportfolio/feature/contacts/contact_page.dart';
 import 'package:myportfolio/feature/home/home_page.dart';
+import 'package:myportfolio/feature/page_controller.dart';
+import 'package:myportfolio/feature/projects/presentation/project_page.dart';
+import 'package:myportfolio/feature/skills/skills_page.dart';
 
-class IndexPage extends StatefulWidget {
+class IndexPage extends ConsumerStatefulWidget {
   const IndexPage({super.key});
 
   @override
-  State<IndexPage> createState() => _IndexPageState();
+  ConsumerState<IndexPage> createState() => _IndexPageState();
 }
 
-class _IndexPageState extends State<IndexPage> {
-  final _pageController = PageController();
-
+class _IndexPageState extends ConsumerState<IndexPage> {
   final navigator = [
     'Home',
     'About',
@@ -21,6 +25,7 @@ class _IndexPageState extends State<IndexPage> {
   ];
   @override
   Widget build(BuildContext context) {
+    final pageController = ref.read(pageControllerProvider);
     return Scaffold(
       body: Column(
         children: [
@@ -47,7 +52,7 @@ class _IndexPageState extends State<IndexPage> {
                     .asMap()
                     .entries
                     .map((e) => _NavigatorLabelButton(
-                          pageController: _pageController,
+                          pageController: pageController,
                           index: e.key,
                           label: e.value,
                         ))
@@ -57,14 +62,14 @@ class _IndexPageState extends State<IndexPage> {
           ),
           Expanded(
             child: PageView(
-              controller: _pageController,
+              controller: pageController,
               scrollDirection: Axis.vertical,
               children: const [
                 HomePage(),
-                Text('About'),
-                Text('Project'),
-                Text('Skills'),
-                Text('Contact'),
+                AboutPage(),
+                ProjectPage(),
+                SkillsPage(),
+                ContactPage(),
               ],
             ),
           )
