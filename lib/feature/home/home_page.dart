@@ -19,67 +19,65 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final pageController = ref.read(pageControllerProvider);
-    return Scaffold(
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Hi, I am Saujan Bindukar!',
-                style: GoogleFonts.montserrat(
-                  fontSize: 24,
-                ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Hi, I am Saujan Bindukar!',
+              style: GoogleFonts.montserrat(
+                fontSize: 24,
               ),
-              Text(
-                'I develop mobile apps, web apps and websites using Flutter!',
-                style: GoogleFonts.montserrat(
-                  fontSize: 20,
-                ),
+            ),
+            Text(
+              'I develop mobile apps, web apps and websites using Flutter!',
+              style: GoogleFonts.montserrat(
+                fontSize: 20,
               ),
-              const SizedBox(height: 20),
-              InkWell(
-                onHover: (value) {
-                  setState(() {
-                    isButtonHover = value;
-                  });
-                },
-                onTap: () {
-                  pageController.animateToPage(
-                    1,
-                    duration: const Duration(milliseconds: 200),
-                    curve: Curves.easeInOut,
-                  );
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isButtonHover ? AppColors.primaryColor : null,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  child: Text(
-                    'Know More',
-                    style: GoogleFonts.montserrat(
-                      fontSize: 20,
-                      color:
-                          isButtonHover ? Colors.white : AppColors.primaryColor,
-                    ),
+            ),
+            const SizedBox(height: 20),
+            InkWell(
+              onHover: (value) {
+                setState(() {
+                  isButtonHover = value;
+                });
+              },
+              onTap: () {
+                pageController.animateToPage(
+                  1,
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeInOut,
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: isButtonHover ? AppColors.primaryColor : null,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: AppColors.primaryColor,
                   ),
                 ),
-              )
-            ],
-          ),
-          const CustomSvg(
-            path: 'assets/images/intro1.svg',
-          ),
-        ],
-      ),
+                child: Text(
+                  'Know More',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 20,
+                    color:
+                        isButtonHover ? Colors.white : AppColors.primaryColor,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        const CustomSvg(
+          path: 'assets/images/intro1.svg',
+        ),
+      ],
     );
   }
 }

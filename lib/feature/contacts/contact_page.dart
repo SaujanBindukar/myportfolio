@@ -100,7 +100,7 @@ class _ContactPageState extends ConsumerState<ContactPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 10),
                                 TextFormField(
                                   controller: _emailController,
                                   validator: (value) {
@@ -118,7 +118,7 @@ class _ContactPageState extends ConsumerState<ContactPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 10),
                                 TextFormField(
                                   controller: _messageController,
                                   maxLines: 5,
@@ -137,7 +137,7 @@ class _ContactPageState extends ConsumerState<ContactPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 40),
+                                const SizedBox(height: 30),
                                 InkWell(
                                   onTap: () {
                                     if (_formKey.currentState!.validate()) {
