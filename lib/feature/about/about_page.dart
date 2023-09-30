@@ -1,9 +1,15 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myportfolio/core/appwrite_client.dart';
 import 'package:myportfolio/core/colors.dart';
 import 'package:myportfolio/core/widget/custom_svg.dart';
 import 'package:myportfolio/feature/about/about_controller.dart';
+
+import 'dart:html' as html;
+
+import 'package:myportfolio/utils/appwrite_utils.dart';
 
 class AboutPage extends ConsumerStatefulWidget {
   const AboutPage({super.key});
@@ -16,6 +22,7 @@ class _AboutPageState extends ConsumerState<AboutPage> {
   bool isButtonHover = false;
   @override
   Widget build(BuildContext context) {
+    final client = ref.read(appwriteClient);
     final about = ref.watch(aboutController);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -63,7 +70,18 @@ class _AboutPageState extends ConsumerState<AboutPage> {
                         isButtonHover = value;
                       });
                     },
-                    onTap: () {},
+                    onTap: () async {
+                      final database = Databases(client);
+                      final result = await database.getDocument(
+                          databaseId: AppwriteUtils.databaseId,
+                          collectionId: '6518394e0387478c7022',
+                          documentId: '651839752992bb1cd974');
+                      final url = result.data['resumeLink'].toString();
+                      html.AnchorElement anchorElement =
+                          html.AnchorElement(href: url);
+                      anchorElement.download = url;
+                      anchorElement.click();
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
