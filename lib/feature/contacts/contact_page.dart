@@ -148,8 +148,9 @@ class _ContactPageState extends ConsumerState<ContactPage> {
                                       Future result = databases.createDocument(
                                         databaseId: AppwriteUtils.databaseId,
                                         collectionId: '65182d4e2f7674e94a1d',
-                                        documentId:
-                                            _emailController.text.trim(),
+                                        documentId: DateTime.now()
+                                            .millisecondsSinceEpoch
+                                            .toString(),
                                         data: {
                                           'name': _nameController.text,
                                           'email': _emailController.text,
