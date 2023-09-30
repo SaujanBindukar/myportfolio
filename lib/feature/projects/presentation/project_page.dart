@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myportfolio/core/colors.dart';
 import 'package:myportfolio/core/widget/custom_svg.dart';
+import 'package:myportfolio/core/widget/header_text.dart';
+import 'package:myportfolio/feature/projects/repository/project_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ProjectPage extends StatefulWidget {
+class ProjectPage extends ConsumerStatefulWidget {
   const ProjectPage({super.key});
 
   @override
-  State<ProjectPage> createState() => _ProjectPageState();
+  ConsumerState<ProjectPage> createState() => _ProjectPageState();
 }
 
-class _ProjectPageState extends State<ProjectPage> {
+class _ProjectPageState extends ConsumerState<ProjectPage> {
   @override
   Widget build(BuildContext context) {
+    final project = ref.watch(projectController);
     return Scaffold(
       body: Center(
         child: Padding(
@@ -27,49 +33,70 @@ class _ProjectPageState extends State<ProjectPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 20),
-                    Text(
-                      'Projects Involved',
-                      style:
-                          Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                      textAlign: TextAlign.center,
-                    ),
+                    const HeaderText(label: 'Projects Involved'),
                     const SizedBox(height: 20),
-                    Flexible(
-                      child: GridView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: 9,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            childAspectRatio: 2,
-                            mainAxisSpacing: 40,
-                            crossAxisSpacing: 20,
-                          ),
-                          itemBuilder: (context, index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Image.asset(
-                                  'assets/project_icons/logo.png',
-                                  height: 60,
-                                  width: 60,
-                                ),
-                                Text(
-                                  'EventsMo',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .labelLarge
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.bold,
+                    project.maybeWhen(
+                      data: (value) {
+                        return Flexible(
+                          child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: value.length > 9 ? 9 : value.length,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 1.7,
+                                mainAxisSpacing: 40,
+                                crossAxisSpacing: 20,
+                              ),
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    launchUrl(
+                                      Uri.parse(value[index].projectLink),
+                                      webOnlyWindowName: '_blank',
+                                    );
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.network(
+                                          value[index].projectImage,
+                                          height: 70,
+                                          width: 70,
+                                        ),
                                       ),
-                                )
-                              ],
-                            );
-                          }),
+                                      Text(
+                                        value[index].projectName,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }),
+                        );
+                      },
+                      loading: () {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ));
+                      },
+                      error: (error, stackTrace) => Text(error.toString()),
+                      orElse: () => const SizedBox(),
                     ),
                   ],
                 ),

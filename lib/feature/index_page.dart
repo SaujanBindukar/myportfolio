@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myportfolio/feature/about/about_controller.dart';
 import 'package:myportfolio/feature/about/about_page.dart';
 import 'package:myportfolio/feature/contacts/contact_page.dart';
 import 'package:myportfolio/feature/home/home_page.dart';
 import 'package:myportfolio/feature/page_controller.dart';
 import 'package:myportfolio/feature/projects/presentation/project_page.dart';
-import 'package:myportfolio/feature/skills/skills_page.dart';
+import 'package:myportfolio/feature/projects/repository/project_controller.dart';
+import 'package:myportfolio/feature/skills/presentation/skills_page.dart';
 
 class IndexPage extends ConsumerStatefulWidget {
   const IndexPage({super.key});
@@ -23,6 +25,13 @@ class _IndexPageState extends ConsumerState<IndexPage> {
     'Skills',
     'Contact',
   ];
+  @override
+  void initState() {
+    ref.read(aboutController);
+    ref.read(projectController);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final pageController = ref.read(pageControllerProvider);

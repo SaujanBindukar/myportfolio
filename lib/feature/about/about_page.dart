@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myportfolio/core/colors.dart';
 import 'package:myportfolio/core/widget/custom_svg.dart';
 import 'package:myportfolio/feature/about/about_controller.dart';
 
@@ -12,6 +13,7 @@ class AboutPage extends ConsumerStatefulWidget {
 }
 
 class _AboutPageState extends ConsumerState<AboutPage> {
+  bool isButtonHover = false;
   @override
   Widget build(BuildContext context) {
     final about = ref.watch(aboutController);
@@ -54,6 +56,34 @@ class _AboutPageState extends ConsumerState<AboutPage> {
                     loading: () => const CircularProgressIndicator(),
                     error: (err, stack) => Text('Error: $err'),
                   ),
+                  const SizedBox(height: 20),
+                  InkWell(
+                    onHover: (value) {
+                      setState(() {
+                        isButtonHover = value;
+                      });
+                    },
+                    onTap: () {},
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: isButtonHover ? AppColors.primaryColor : null,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                      child: Text(
+                        'Download Resume',
+                        style: GoogleFonts.montserrat(
+                          fontSize: 20,
+                          color: isButtonHover
+                              ? Colors.white
+                              : AppColors.primaryColor,
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
