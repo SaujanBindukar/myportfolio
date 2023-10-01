@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -68,6 +69,9 @@ class _AboutPageState extends ConsumerState<AboutPage> {
                       });
                     },
                     onTap: () async {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'resume_download',
+                      );
                       final database = Databases(client);
                       final result = await database.getDocument(
                         databaseId: AppwriteUtils.databaseId,

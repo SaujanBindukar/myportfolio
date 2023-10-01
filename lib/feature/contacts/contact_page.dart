@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -300,7 +301,10 @@ class AppFooter extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'linkedin_click',
+                      );
                       launchUrl(
                         Uri.parse(
                           'https://www.linkedin.com/in/saujan-bindukar-8b165714b/',
@@ -315,7 +319,10 @@ class AppFooter extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'github_click',
+                      );
                       launchUrl(
                         Uri.parse('https://github.com/SaujanBindukar'),
                         webOnlyWindowName: '_blank',
@@ -329,7 +336,10 @@ class AppFooter extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'medium_click',
+                      );
                       launchUrl(
                         Uri.parse('https://medium.com/@saujanbindukar'),
                         webOnlyWindowName: '_blank',
@@ -344,13 +354,18 @@ class AppFooter extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () async {
+                      await FirebaseAnalytics.instance.logEvent(
+                        name: 'email_click',
+                      );
                       await Clipboard.setData(
                         const ClipboardData(text: 'sauzanbindukar@gmail.com'),
                       );
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         backgroundColor: AppColors.primaryColor,
                         content: Text(
                           'Email copied to clipboard!',
+                          // ignore: use_build_context_synchronously
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium

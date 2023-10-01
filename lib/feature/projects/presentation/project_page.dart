@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:myportfolio/core/colors.dart';
@@ -53,7 +54,10 @@ class _ProjectPageState extends ConsumerState<ProjectPage> {
                         ),
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              await FirebaseAnalytics.instance.logEvent(
+                                name: value[index].projectName,
+                              );
                               launchUrl(
                                 Uri.parse(value[index].projectLink),
                                 webOnlyWindowName: '_blank',
