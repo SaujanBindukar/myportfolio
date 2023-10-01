@@ -1,14 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myportfolio/feature/about/about_controller.dart';
+import 'package:myportfolio/core/colors.dart';
+import 'package:myportfolio/core/navigator.dart';
 import 'package:myportfolio/feature/about/about_page.dart';
 import 'package:myportfolio/feature/contacts/contact_page.dart';
 import 'package:myportfolio/feature/home/home_page.dart';
-import 'package:myportfolio/feature/page_controller.dart';
 import 'package:myportfolio/feature/projects/presentation/project_page.dart';
-import 'package:myportfolio/feature/projects/repository/project_controller.dart';
 import 'package:myportfolio/feature/skills/presentation/skills_page.dart';
+
+final navigator = [
+  NavHeaderItem(
+    name: 'Home',
+    globalKey: GlobalKey(),
+  ),
+  NavHeaderItem(
+    name: 'About',
+    globalKey: GlobalKey(),
+  ),
+  NavHeaderItem(
+    name: 'Projects',
+    globalKey: GlobalKey(),
+  ),
+  NavHeaderItem(
+    name: 'Skills',
+    globalKey: GlobalKey(),
+  ),
+  NavHeaderItem(
+    name: 'Contact',
+    globalKey: GlobalKey(),
+  ),
+];
+
+class NavHeaderItem {
+  final String name;
+  final GlobalKey globalKey;
+
+  NavHeaderItem({
+    required this.name,
+    required this.globalKey,
+  });
+}
 
 class IndexPage extends ConsumerStatefulWidget {
   const IndexPage({super.key});
@@ -18,23 +50,13 @@ class IndexPage extends ConsumerStatefulWidget {
 }
 
 class _IndexPageState extends ConsumerState<IndexPage> {
-  final navigator = [
-    'Home',
-    'About',
-    'Projects',
-    'Skills',
-    'Contact',
-  ];
   @override
   void initState() {
-    ref.read(aboutController);
-    ref.read(projectController);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final pageController = ref.read(pageControllerProvider);
     return Scaffold(
       body: Column(
         children: [
@@ -60,28 +82,30 @@ class _IndexPageState extends ConsumerState<IndexPage> {
                 ...navigator
                     .asMap()
                     .entries
-                    .map((e) => _NavigatorLabelButton(
-                          pageController: pageController,
-                          index: e.key,
-                          label: e.value,
-                        ))
+                    .map(
+                      (e) => _NavigatorLabelButton(
+                        index: e.key,
+                        label: e.value.name,
+                        globalKey: e.value.globalKey,
+                      ),
+                    )
                     .toList(),
               ],
             ),
           ),
           Expanded(
-            child: PageView(
-              controller: pageController,
-              scrollDirection: Axis.vertical,
-              children: const [
-                HomePage(),
-                AboutPage(),
-                ProjectPage(),
-                SkillsPage(),
-                ContactPage(),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  HomePage(key: navigator[0].globalKey),
+                  AboutPage(key: navigator[1].globalKey),
+                  ProjectPage(key: navigator[2].globalKey),
+                  SkillsPage(key: navigator[3].globalKey),
+                  ContactPage(key: navigator[4].globalKey),
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -100,29 +124,27 @@ class MySignature extends StatelessWidget {
       style: GoogleFonts.dancingScript(
         fontSize: 28,
         fontWeight: FontWeight.bold,
+        color: AppColors.onPrimaryColor,
       ),
     );
   }
 }
 
-class _NavigatorLabelButton extends StatelessWidget {
-  const _NavigatorLabelButton({
-    required this.label,
-    required this.index,
-    required this.pageController,
-  });
+class _NavigatorLabelButton extends ConsumerWidget {
+  const _NavigatorLabelButton(
+      {required this.label, required this.index, required this.globalKey});
 
-  final PageController pageController;
   final int index;
   final String label;
+  final GlobalKey globalKey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return InkWell(
       onTap: () {
-        pageController.animateToPage(index,
-            duration: const Duration(milliseconds: 400),
-            curve: Curves.easeInOut);
+        SectionNavigator.navigateToSections(
+          context: navigator[index].globalKey.currentContext!,
+        );
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 20, top: 8, bottom: 8),
@@ -131,6 +153,7 @@ class _NavigatorLabelButton extends StatelessWidget {
           style: GoogleFonts.montserrat(
             fontSize: 20,
             fontWeight: FontWeight.w600,
+            color: AppColors.onPrimaryColor,
           ),
         ),
       ),

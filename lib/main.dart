@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Saujan Bindukar',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: GoogleFonts.montserratTextTheme(Theme.of(context).textTheme),
+        textTheme: GoogleFonts.montserratTextTheme().copyWith(),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
         ),
