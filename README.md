@@ -1,5 +1,5 @@
 # myportfolio
-# This is my official website.
-- [Live website](https://saujanbindukar.com.np)
+- This is my official website.
+- [https://saujanbindukar.com.np](https://saujanbindukar.com.np)
 
 
