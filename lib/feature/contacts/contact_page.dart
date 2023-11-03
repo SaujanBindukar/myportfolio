@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/appwrite_client.dart';
 import 'package:myportfolio/core/colors.dart';
+import 'package:myportfolio/core/responsive_extensions.dart';
 import 'package:myportfolio/core/widget/custom_svg.dart';
 import 'package:myportfolio/core/widget/header_text.dart';
 import 'package:myportfolio/utils/appwrite_utils.dart';
@@ -30,10 +31,13 @@ class _ContactPageState extends ConsumerState<ContactPage> {
   @override
   Widget build(BuildContext context) {
     final client = ref.read(appwriteClient);
+    final isMobile = context.isMobile;
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+          padding: isMobile
+              ? const EdgeInsets.fromLTRB(0, 20, 0, 0)
+              : const EdgeInsets.fromLTRB(20, 40, 20, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -96,8 +100,9 @@ class _ContactPageState extends ConsumerState<ContactPage> {
                                   )
                                 ],
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 40, vertical: 40),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: isMobile ? 20 : 40,
+                                  vertical: isMobile ? 20 : 40),
                               child: Form(
                                 key: _formKey,
                                 child: Column(
@@ -249,13 +254,14 @@ class _ContactPageState extends ConsumerState<ContactPage> {
                           ],
                         ),
                       ),
-                      const Flexible(
-                        flex: 2,
-                        fit: FlexFit.tight,
-                        child: CustomSvg(
-                          path: 'assets/images/contacts.svg',
+                      if (!isMobile)
+                        const Flexible(
+                          flex: 2,
+                          fit: FlexFit.tight,
+                          child: CustomSvg(
+                            path: 'assets/images/contacts.svg',
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),

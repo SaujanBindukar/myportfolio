@@ -69,6 +69,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       navigatorObservers: <NavigatorObserver>[observer],
       theme: ThemeData(
+        appBarTheme: const AppBarTheme(surfaceTintColor: Colors.transparent),
         textTheme: GoogleFonts.montserratTextTheme().copyWith(),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,

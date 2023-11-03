@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myportfolio/core/colors.dart';
 import 'package:myportfolio/core/navigator.dart';
+import 'package:myportfolio/core/responsive_extensions.dart';
 import 'package:myportfolio/core/widget/custom_svg.dart';
 import 'package:myportfolio/feature/index_page.dart';
 
@@ -19,8 +20,12 @@ class _HomePageState extends ConsumerState<HomePage> {
   bool isButtonHover = false;
   @override
   Widget build(BuildContext context) {
+    final isMobile = context.isMobile;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 40),
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 20 : 40,
+        horizontal: isMobile ? 20 : 40,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -69,8 +74,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                     ),
                     child: Text(
                       'Know More',
+                      textAlign: TextAlign.center,
                       style: GoogleFonts.montserrat(
-                        fontSize: 20,
+                        fontSize: isMobile ? 16 : 20,
                         color: isButtonHover
                             ? Colors.white
                             : AppColors.primaryColor,
@@ -81,9 +87,11 @@ class _HomePageState extends ConsumerState<HomePage> {
               ],
             ),
           ),
-          const Expanded(
+          Expanded(
             child: CustomSvg(
               path: 'assets/images/intro1.svg',
+              height: isMobile ? MediaQuery.of(context).size.height / 2 : null,
+              width: isMobile ? MediaQuery.of(context).size.width : null,
             ),
           ),
         ],
